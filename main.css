@@ -1,0 +1,125 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container {
+  background-color: grey;
+  box-sizing: border-box;
+  width: 35vw;
+  height: 90vh;
+  margin: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.display {
+  background-color: black;
+  box-sizing: border-box;
+  border: 3.5vh solid rgb(175, 164, 164);
+  color: white;
+  width: 100%;
+  height: 18%;
+  padding-left: 2vw;
+  padding-top: 2vh;
+  font-family: math;
+  font-size: 5.5vh;
+  font-weight: 600;
+}
+.digits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 82%;
+  padding: 1vh 1vw;
+}
+.number-digits {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* align-items: center; */
+  /* justify-content: space-around; */
+  width: 75%;
+  height: 100%;
+}
+.whole-digits {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: border-box;
+  height: 60%;
+  width: 100%;
+}
+.whole-digits > div {
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1;
+  width: 100%;
+}
+.special-digits {
+  display: flex;
+  justify-content: space-around;
+  box-sizing: border-box;
+  height: 20%;
+  width: 100%;
+}
+.top-special-digits {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: border-box;
+  height: 20%;
+  width: 100%;
+}
+.operations {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  width: 25%;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-special-digits button {
+  box-sizing: border-box;
+  height: 80%;
+  width: 33.33%;
+  border: 10px solid grey;
+  font-size: larger;
+  font-weight: 500;
+}
+.whole-digits button {
+  box-sizing: border-box;
+  border: 10px solid grey;
+  height: 100%;
+  width: 33%;
+  /* margin: 2vh 1.5vw; */
+  background-color: rgb(245, 245, 245);
+  font-size: larger;
+  font-weight: 500;
+}
+.special-digits button {
+  box-sizing: border-box;
+  height: 80%;
+  width: 33.33%;
+  border: 10px solid grey;
+  font-size: larger;
+  font-weight: 500;
+}
+.operations button {
+  box-sizing: border-box;
+  border: 10px solid grey;
+  height: 16.67%;
+  width: 100%;
+  background-color: rgb(250, 34, 34);
+  color:rgb(255, 255, 255);
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 1px;
+  font-size: larger;
+  font-weight: 700;
+}

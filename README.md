@@ -1,2 +1,2 @@
-# toLearnGit
-To learn about git and it's features and to play around with it.
+# calculator
+To design and create a basic calculator
