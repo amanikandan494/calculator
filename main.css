@@ -117,9 +117,55 @@ body {
   height: 16.67%;
   width: 100%;
   background-color: rgb(250, 34, 34);
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 1px;
   font-size: larger;
   font-weight: 700;
+}
+
+@media screen and (max-width: 980px) {
+  .container {
+    width: 45vw;
+  }
+}
+@media screen and (max-width: 760px) {
+  .container {
+    width: 55vw;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .container {
+    width: 75vw;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .container {
+    width: 85vw;
+  }
+  .top-special-digits button {
+    border: 3px solid grey;
+    box-shadow: 4px 4px 1px rgb(26, 25, 25);
+  }
+  .whole-digits button {
+    height: 80%;
+    border: 3px solid grey;
+    box-shadow: 4px 4px 1px rgb(26, 25, 25);
+  }
+  .special-digits button {
+    border: 3px solid grey;
+    box-shadow: 4px 4px 1px rgb(26, 25, 25);
+  }
+  .operations {
+    justify-content: space-around;
+  }
+  .operations button {
+    height: 12%;
+    width: 80%;
+    gap: 2px;
+    border: 0px solid grey;
+    box-shadow: 3px 3px 2px rgb(70 2 2);
+  }
 }
