@@ -14,7 +14,6 @@ function power(a, b) {
   return a ** b;
 }
 function mod(a, b) {
-  console.log("mod func", a % b);
   return a % b;
 }
 function abs(a) {
@@ -24,7 +23,6 @@ function abs(a) {
   return a;
 }
 function changeSign(a) {
-  console.log("Change Sign func:", -1 * a);
   return `${-1 * a}`;
 }
 function operate(a, operation, b = "") {
@@ -51,18 +49,49 @@ function operate(a, operation, b = "") {
 }
 
 const display = document.querySelector(".display");
+const numButtons = document.querySelectorAll(".number-digits button");
+const opButtons = document.querySelectorAll(".operations button");
 const wholeDigits = document.querySelector(".whole-digits");
 const topSplDigits = document.querySelector(".top-special-digits");
 const splDigits = document.querySelector(".special-digits");
 const operators = document.querySelector(".operations");
 let isDotPresent = false;
-let a,
+let a = "",
   b = "",
   operator = "";
 
+numButtons.forEach((btn) => {
+  btn.addEventListener("mouseenter", (e) => {
+    e.target.style.backgroundColor = "black";
+    e.target.style.color = "rgb(245, 245, 245)";
+    e.target.style.boxShadow = "3px 3px 1px rgb(92, 92, 92)";
+    e.target.style.border = "1px solid grey";
+  });
+  btn.addEventListener("mouseleave", (e) => {
+    e.target.style.backgroundColor = "rgb(245, 245, 245)";
+    e.target.style.color = "black";
+    e.target.style.boxShadow = "0px 0px 0px 0px";
+    e.target.style.border = "10px solid grey";
+  });
+});
+
+opButtons.forEach((btn) => {
+  btn.addEventListener("mouseenter", (e) => {
+    e.target.style.height = "20%";
+    e.target.style.width = "110%";
+    e.target.style.backgroundColor = "rgb(245, 245, 245)";
+    e.target.style.color = "rgb(250, 34, 34)";
+  });
+  btn.addEventListener("mouseleave", (e) => {
+    e.target.style.height = "16.67%";
+    e.target.style.width = "100%";
+    e.target.style.backgroundColor = "rgb(250, 34, 34)";
+    e.target.style.color = "rgb(245, 245, 245)";
+  });
+});
+
 topSplDigits.addEventListener("click", (e) => {
   if (e?.target?.value === "mod") {
-    console.log("Top digit clicked", e.target.value);
     {
       if (b === "" && (!operator || operator === "")) {
         a = `${+display.textContent}`;
@@ -87,69 +116,68 @@ topSplDigits.addEventListener("click", (e) => {
   }
   if (e?.target?.value === "backspace") {
     if (a !== "" && operator === "") {
-      console.log("a to be removed");
       a = a.slice(0, a.length - 1);
       display.textContent = a;
     } else if (a !== "" && operator !== "" && b !== "") {
-      console.log("b to be removed");
       b = b.slice(0, b.length - 1);
       display.textContent = b;
     }
   }
 });
 wholeDigits.addEventListener("click", (e) => {
-  if (a === "" || operator === "") {
-    if (display.textContent === "0") {
-      display.textContent = e?.target?.value || "0";
-      a = `${+display.textContent}`;
-    } else if (
-      display.textContent === "Invalid Operation: You are reaching infinity!!"
-    ) {
-      display.textContent = e?.target?.value || "0";
-      display.style.height = "18%";
-      a = `${+display.textContent}`;
-    } else {
-      display.textContent += e?.target?.value || "";
-      a = `${+display.textContent}`;
-    }
+  if (
+    display.textContent === "Invalid Operation: You are reaching infinity!!"
+  ) {
+    display.style.height = "18%";
     document.body.style.backgroundImage = "none";
+    a = e?.target?.value;
+    display.textContent = a;
   }
   if (a !== "" && operator !== "") {
-    if (b === "0") {
+    if (+b === 0) {
       b = e?.target?.value || "0";
     } else {
       b += e?.target?.value || "";
     }
     display.textContent = " " + b;
   }
+  if (a !== "" && operator === "") {
+    if (+a === 0) {
+      a = e?.target?.value;
+    } else {
+      a += e?.target?.value;
+    }
+    display.textContent = a;
+  } else if (a === "" && operator === "") {
+    a = e?.target?.value;
+    display.textContent = a;
+  }
 });
 
 splDigits.addEventListener("click", (e) => {
-  if (a === "" || operator === "") {
-    if (
-      e.target.value === "0" &&
-      (+display.textContent !== 0 || display.textContent === "")
-    ) {
-      display.textContent += "0";
+  if (a !== "" && operator === "") {
+    if (e.target.value === "0" && +a !== 0) {
+      a += "0";
     }
-    if (e.target.value === "+/-" && +display.textContent !== 0) {
-      display.textContent = `${operate(+display.textContent, "+/-")}`;
+    if (e.target.value === "+/-" && +a !== 0) {
+      a = `${operate(+a, "+/-")}`;
     }
-    if (e.target.value === "abs" && +display.textContent !== 0) {
-      display.textContent = `${operate(+display.textContent, "abs")}`;
+    if (e.target.value === "abs" && +a !== 0) {
+      a = `${operate(+a, "abs")}`;
     }
-    if (e.target.value === "." && isDotPresent === false) {
-      if (display.textContent === "") {
-        display.textContent = "0.";
-        isDotPresent = true;
-      } else if (+display.textContent % 1 === 0) {
-        display.textContent += ".";
-        isDotPresent = true;
-      } else if (+display.textContent % 1 !== 0) {
-        isDotPresent = true;
-      }
+    display.textContent = a;
+  }
+  if (e?.target?.value === "." && isDotPresent === false) {
+    if (a === "" && operator === "") {
+      a += "0.";
+      isDotPresent = true;
+    } else if (+a % 1 === 0 && operator === "") {
+      a += e?.target?.value;
+      isDotPresent = true;
+    } else if (+a % 1 !== 0 && operator === "") {
+      isDotPresent = true;
     }
-    console.log("display has as a:", +display.textContent);
+    display.textContent = a;
   }
   if (a !== "" && operator !== "") {
     if (e.target.value === "0" && (+b !== 0 || b === "")) {
@@ -172,8 +200,7 @@ splDigits.addEventListener("click", (e) => {
         isDotPresent = true;
       }
     }
-    display.textContent = a + " " + operator + " " + b;
-    console.log("display has as b:", b);
+    display.textContent = " " + b;
   }
 });
 
@@ -185,19 +212,18 @@ operators.addEventListener("click", (e) => {
     e?.target?.value === "/" ||
     e?.target?.value === "pow"
   ) {
-    if (b === "" && (!operator || operator === "")) {
+    if (b === "" && operator === "") {
       operator = e.target.value;
       isDotPresent = false;
       display.textContent = a + " " + operator;
-    } else if (b === "" && operator) {
+    } else if (b === "" && operator !== "") {
       operator = e.target.value;
       display.textContent = a + " " + operator;
     } else if (b !== "") {
-      console.log(`b and operator are ${b} and ${operator}`);
       if (+b === 0 && operator === "/") {
         a = "";
         operator = "";
-        console.log("Inside infinty");
+        isDotPresent = false;
         display.textContent = "Invalid Operation: You are reaching infinity!!";
         display.style.height = "30%";
         document.body.style.backgroundImage = "url('./public/universe.jpg')";
@@ -207,14 +233,15 @@ operators.addEventListener("click", (e) => {
         a = operate(a, operator, b);
         operator = e.target.value;
         display.textContent = a + " " + operator;
+        isDotPresent = +a % 1 === 0 ? false : true;
       }
       b = "";
-      isDotPresent = false;
     }
   }
   if (e?.target?.value === "=" && b !== "") {
     if (+b === 0 && operator === "/") {
       a = "";
+      isDotPresent = false;
       display.textContent = "Invalid Operation: You are reaching infinity!!";
       display.style.height = "30%";
       document.body.style.backgroundImage = "url('./public/universe.jpg')";
@@ -223,9 +250,9 @@ operators.addEventListener("click", (e) => {
     } else {
       a = operate(a, operator, b);
       display.textContent = a;
+      isDotPresent = +a % 1 === 0 ? false : true;
     }
     operator = "";
     b = "";
-    isDotPresent = false;
   }
 });
