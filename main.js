@@ -61,32 +61,31 @@ let a = "",
   operator = "";
 
 numButtons.forEach((btn) => {
+  let border = "";
   btn.addEventListener("mouseenter", (e) => {
     e.target.style.backgroundColor = "black";
     e.target.style.color = "rgb(245, 245, 245)";
-    e.target.style.boxShadow = "3px 3px 1px rgb(92, 92, 92)";
-    e.target.style.border = "1px solid grey";
+    border = e.target.style.border;
+    e.target.style.border = "7px solid grey";
   });
   btn.addEventListener("mouseleave", (e) => {
     e.target.style.backgroundColor = "rgb(245, 245, 245)";
     e.target.style.color = "black";
-    e.target.style.boxShadow = "0px 0px 0px 0px";
-    e.target.style.border = "10px solid grey";
+    e.target.style.border = border;
   });
 });
 
 opButtons.forEach((btn) => {
   btn.addEventListener("mouseenter", (e) => {
-    e.target.style.height = "20%";
-    e.target.style.width = "110%";
     e.target.style.backgroundColor = "rgb(245, 245, 245)";
     e.target.style.color = "rgb(250, 34, 34)";
+    border = e.target.style.border;
+    e.target.style.border = "7px solid grey";
   });
   btn.addEventListener("mouseleave", (e) => {
-    e.target.style.height = "16.67%";
-    e.target.style.width = "100%";
     e.target.style.backgroundColor = "rgb(250, 34, 34)";
     e.target.style.color = "rgb(245, 245, 245)";
+    e.target.style.border = border;
   });
 });
 
@@ -106,12 +105,14 @@ topSplDigits.addEventListener("click", (e) => {
         isDotPresent = false;
       }
       display.textContent = a + " " + operator;
+      console.log("length:", display.textContent.length);
     }
   }
   if (e?.target?.value === "clear") {
     a = "";
     operator = "";
     b = "";
+    isDotPresent = false;
     display.textContent = "";
   }
   if (e?.target?.value === "backspace") {
@@ -133,30 +134,34 @@ wholeDigits.addEventListener("click", (e) => {
     a = e?.target?.value;
     display.textContent = a;
   }
-  if (a !== "" && operator !== "") {
-    if (+b === 0) {
-      b = e?.target?.value || "0";
-    } else {
-      b += e?.target?.value || "";
+  if (display.textContent.length <= 14) {
+    if (a !== "" && operator !== "") {
+      if (+b === 0) {
+        b = e?.target?.value || "0";
+      } else {
+        b += e?.target?.value || "";
+      }
+      display.textContent = " " + b;
     }
-    display.textContent = " " + b;
   }
-  if (a !== "" && operator === "") {
-    if (+a === 0) {
+  if (display.textContent.length <= 9) {
+    if (a !== "" && operator === "") {
+      if (+a === 0) {
+        a = e?.target?.value;
+      } else {
+        a += e?.target?.value;
+      }
+      display.textContent = a;
+    } else if (a === "" && operator === "") {
       a = e?.target?.value;
-    } else {
-      a += e?.target?.value;
+      display.textContent = a;
     }
-    display.textContent = a;
-  } else if (a === "" && operator === "") {
-    a = e?.target?.value;
-    display.textContent = a;
   }
 });
 
 splDigits.addEventListener("click", (e) => {
   if (a !== "" && operator === "") {
-    if (e.target.value === "0" && +a !== 0) {
+    if (e.target.value === "0" && +a !== 0 && display.textContent.length <= 9) {
       a += "0";
     }
     if (e.target.value === "+/-" && +a !== 0) {
@@ -231,9 +236,13 @@ operators.addEventListener("click", (e) => {
         document.body.style.backgroundPosition = "center";
       } else {
         a = operate(a, operator, b);
+        a = `${a}`;
+        if (a.length > 10 && +a % 1 === 0) {
+          a = Number(a).toExponential(2);
+        }
         operator = e.target.value;
         display.textContent = a + " " + operator;
-        isDotPresent = +a % 1 === 0 ? false : true;
+        isDotPresent = false;
       }
       b = "";
     }
@@ -249,8 +258,15 @@ operators.addEventListener("click", (e) => {
       document.body.style.backgroundPosition = "center";
     } else {
       a = operate(a, operator, b);
-      display.textContent = a;
-      isDotPresent = +a % 1 === 0 ? false : true;
+      a = `${a}`;
+      if (a.length > 10 && +a % 1 === 0) {
+        display.textContent = `${Number(a).toExponential(2)}`;
+        a = "";
+        isDotPresent = false;
+      } else {
+        display.textContent = a;
+        isDotPresent = Number(a) % 1 === 0 ? false : true;
+      }
     }
     operator = "";
     b = "";
